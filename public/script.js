@@ -2,38 +2,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const muralImage = document.getElementById('mural-image');
     const muralPdf = document.getElementById('mural-pdf');
     const fileMessage = document.getElementById('file-message');
+    let files = [];
+    let currentIndex = 0;
   
     function getFileExtension(filename) {
       return filename.split('.').pop().toLowerCase();
     }
   
     function updateMural() {
-      fetch('/murais/latest')
+      fetch('/murais/list')
         .then(response => {
           if (!response.ok) throw new Error('Network response was not ok');
-          return response.text();
+          return response.json();
         })
-        .then(filename => {
-          const trimmedFilename = filename.trim();
-          const fileUrl = `/murais/${trimmedFilename}`;
-          const fileExtension = getFileExtension(trimmedFilename);
+        .then(fileList => {
+          files = fileList;
+          if (files.length === 0) {
+            fileMessage.textContent = 'Nenhum arquivo encontrado.';
+            fileMessage.style.display = 'block';
+            muralImage.style.display = 'none';
+            muralPdf.style.display = 'none';
+            return;
+          }
+          const filename = files[currentIndex];
+          const fileUrl = `/murais/${filename}`;
+          const fileExtension = getFileExtension(filename);
   
           if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
             muralImage.src = fileUrl;
             muralImage.style.display = 'block';
             muralPdf.style.display = 'none';
-            fileMessage.style.display = 'none';
           } else if (fileExtension === 'pdf') {
             muralPdf.src = fileUrl;
             muralPdf.style.display = 'block';
             muralImage.style.display = 'none';
-            fileMessage.style.display = 'none';
           } else {
             fileMessage.textContent = 'Arquivo não suportado.';
             fileMessage.style.display = 'block';
             muralImage.style.display = 'none';
             muralPdf.style.display = 'none';
           }
+          currentIndex = (currentIndex + 1) % files.length; // Move para o próximo arquivo
         })
         .catch(err => {
           console.error('Erro ao atualizar mural:', err);
@@ -44,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
   
-    setInterval(updateMural, 5000);
+    setInterval(updateMural, 5000); // Atualiza a cada 5 segundos
   
     document.getElementById('upload-form').addEventListener('submit', (event) => {
       event.preventDefault();
@@ -61,3 +70,4 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('Erro ao enviar arquivo:', err));
     });
   });
+  

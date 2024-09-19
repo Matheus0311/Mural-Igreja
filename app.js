@@ -26,8 +26,8 @@ app.post('/upload', upload.single('muralFile'), (req, res) => {
   res.send('Arquivo enviado com sucesso!');
 });
 
-// Rota para obter o nome do arquivo mais recente
-app.get('/murais/latest', (req, res) => {
+// Rota para obter a lista de arquivos
+app.get('/murais/list', (req, res) => {
   const dirPath = path.join(__dirname, 'arquivos_de_murais');
   fs.readdir(dirPath, (err, files) => {
     if (err) {
@@ -37,9 +37,7 @@ app.get('/murais/latest', (req, res) => {
     if (files.length === 0) {
       return res.status(404).send('Nenhum arquivo encontrado.');
     }
-    // Ordena os arquivos por data de criação e pega o mais recente
-    const latestFile = files.sort((a, b) => fs.statSync(path.join(dirPath, b)).mtime - fs.statSync(path.join(dirPath, a)).mtime)[0];
-    res.send(latestFile);
+    res.json(files); // Envia a lista de arquivos como JSON
   });
 });
 
