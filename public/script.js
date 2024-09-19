@@ -6,11 +6,28 @@ document.addEventListener('DOMContentLoaded', () => {
     let files = [];
     let currentIndex = 0;
 
+    // Função para entrar no modo tela cheia
+    function enterFullscreen() {
+        const docElement = document.documentElement;
+        if (docElement.requestFullscreen) {
+            docElement.requestFullscreen();
+        } else if (docElement.mozRequestFullScreen) { // Firefox
+            docElement.mozRequestFullScreen();
+        } else if (docElement.webkitRequestFullscreen) { // Chrome, Safari e Opera
+            docElement.webkitRequestFullscreen();
+        } else if (docElement.msRequestFullscreen) { // IE/Edge
+            docElement.msRequestFullscreen();
+        }
+    }
+
+    
+
     function getFileExtension(filename) {
         return filename.split('.').pop().toLowerCase();
     }
 
     function updateMural() {
+        enterFullscreen();
         fetch('/murais/list')
             .then(response => {
                 if (!response.ok) throw new Error('Network response was not ok');
