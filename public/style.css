@@ -1,8 +1,16 @@
+/* Reset básico para evitar inconsistências entre navegadores */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+  overflow: hidden; /* Impede barras de rolagem indesejadas */
 }
 
 .container {
@@ -47,33 +55,29 @@ button:hover {
   background-color: #0056b3;
 }
 
-h2 {
-  text-align: center;
-  color: #555;
-}
-
-img.mural-image {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 20px auto;
-}
-
-iframe.mural-pdf {
-  display: block;
-  margin: 20px auto;
-  width: 100%;
-  height: 800px;
-  border: none;
-}
-
-p.file-message {
-  text-align: center;
-  color: #d9534f;
-  font-size: 16px;
-}
-
 p.upload-feedback {
   text-align: center;
   font-size: 16px;
+  color: green;
+}
+
+.mural-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda a altura da tela */
+  background-color: #f4f4f4;
+}
+
+.mural-content {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+iframe.mural-content {
+  border: none;
+  width: 100%;
+  height: 100%;
 }
