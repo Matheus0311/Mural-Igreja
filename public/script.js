@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const muralImage = document.getElementById('mural-image');
     const muralPdf = document.getElementById('mural-pdf');
     const fileMessage = document.getElementById('file-message');
+    const uploadFeedback = document.getElementById('upload-feedback');
     let files = [];
     let currentIndex = 0;
   
@@ -64,10 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(response => response.text())
       .then(message => {
-        console.log(message);
+        uploadFeedback.textContent = 'Arquivo enviado com sucesso!';
+        uploadFeedback.classList.remove('error');
+        uploadFeedback.classList.add('success');
         updateMural(); // Atualiza o mural após o upload
       })
-      .catch(err => console.error('Erro ao enviar arquivo:', err));
+      .catch(err => {
+        console.error('Erro ao enviar arquivo:', err);
+        uploadFeedback.textContent = 'Erro ao enviar o arquivo.';
+        uploadFeedback.classList.remove('success');
+        uploadFeedback.classList.add('error');
+      });
     });
   });
   
