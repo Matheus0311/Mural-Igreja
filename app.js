@@ -21,6 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware para servir arquivos estáticos da pasta arquivos_de_murais
 app.use('/murais', express.static(path.join(__dirname, 'arquivos_de_murais')));
 
+// Middleware para análise de formulários
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Rota para upload de arquivos
 app.post('/upload', upload.single('muralFile'), (req, res) => {
   res.send('Arquivo enviado com sucesso!');
@@ -35,9 +39,11 @@ app.get('/murais/list', (req, res) => {
       return res.status(500).send('Erro ao ler o diretório.');
     }
     if (files.length === 0) {
-      return res.status(404).send('Nenhum arquivo encontrado.');
+      // Quando não há arquivos, servir a página com a mensagem de contato
+      res.sendFile(path.join(__dirname, 'public', 'contato.html'));
+    } else {
+      res.json(files); // Envia a lista de arquivos como JSON
     }
-    res.json(files); // Envia a lista de arquivos como JSON
   });
 });
 

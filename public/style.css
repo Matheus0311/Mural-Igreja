@@ -81,3 +81,13 @@ iframe.mural-content {
   width: 100%;
   height: 100%;
 }
+.mural-container {
+  text-align: center;
+}
+
+.contact-message {
+  display: none; /* Inicialmente escondido */
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}

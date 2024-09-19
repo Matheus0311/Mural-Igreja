@@ -3,21 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload</title>
+  <title>Upload de Arquivos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h1>Upload de Arquivos</h1>
-    
     <form id="upload-form" enctype="multipart/form-data">
       <input type="file" name="muralFile" accept="image/*,video/*,application/pdf" required>
       <button type="submit">Upload</button>
     </form>
-    
     <p id="upload-feedback" class="upload-feedback"></p>
-    
-    <p><a href="/">Voltar para o mural</a></p>
+    <p><a href="/index.html">Voltar para o mural</a></p>
   </div>
   
   <script src="script.js"></script>
