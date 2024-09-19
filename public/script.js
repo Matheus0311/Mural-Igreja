@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     setInterval(updateMural, 5000); // Atualiza a cada 5 segundos
   
-    document.getElementById('upload-form').addEventListener('submit', (event) => {
+    document.getElementById('upload-form')?.addEventListener('submit', (event) => {
       event.preventDefault();
       const formData = new FormData(event.target);
       fetch('/upload', {
@@ -66,15 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => response.text())
       .then(message => {
         uploadFeedback.textContent = 'Arquivo enviado com sucesso!';
-        uploadFeedback.classList.remove('error');
-        uploadFeedback.classList.add('success');
+        uploadFeedback.style.color = 'green';
         updateMural(); // Atualiza o mural após o upload
       })
       .catch(err => {
         console.error('Erro ao enviar arquivo:', err);
         uploadFeedback.textContent = 'Erro ao enviar o arquivo.';
-        uploadFeedback.classList.remove('success');
-        uploadFeedback.classList.add('error');
+        uploadFeedback.style.color = 'red';
       });
     });
   });

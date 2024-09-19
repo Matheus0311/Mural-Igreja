@@ -73,17 +73,7 @@ p.file-message {
   font-size: 16px;
 }
 
-.upload-feedback {
+p.upload-feedback {
   text-align: center;
   font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.upload-feedback.success {
-  color: #28a745;
-}
-
-.upload-feedback.error {
-  color: #dc3545;
 }
