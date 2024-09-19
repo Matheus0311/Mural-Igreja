@@ -33,19 +33,29 @@ app.post('/upload', upload.single('muralFile'), (req, res) => {
 // Rota para obter a lista de arquivos
 app.get('/murais/list', (req, res) => {
   const dirPath = path.join(__dirname, 'arquivos_de_murais');
+
+  // Verifica se a rota de onde o pedido foi feito é a principal (index.html ou raiz)
+  if (req.headers.referer && req.headers.referer.includes('/upload')) {
+    // Se a requisição veio da página de uploads, apenas retorna uma lista vazia ou outro comportamento desejado
+    return res.json([]); // Ou outra resposta adequada para a página de uploads
+  }
+
   fs.readdir(dirPath, (err, files) => {
     if (err) {
       console.error('Erro ao ler o diretório:', err);
       return res.status(500).send('Erro ao ler o diretório.');
     }
+
     if (files.length === 0) {
-      // Quando não há arquivos, servir a página com a mensagem de contato
+      // Quando não há arquivos e a requisição veio da página principal, servir a página de contato
       res.sendFile(path.join(__dirname, 'public', 'contato.html'));
     } else {
-      res.json(files); // Envia a lista de arquivos como JSON
+      // Envia a lista de arquivos como JSON
+      res.json(files);
     }
   });
 });
+
 
 // Iniciar o servidor
 const port = 3000;
